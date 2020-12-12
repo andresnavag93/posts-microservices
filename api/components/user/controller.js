@@ -25,8 +25,6 @@ module.exports = function (injectedStore) {
 
     if (body.id) {
       user.id = body.id;
-    } else {
-      user.id = nanoid();
     }
 
     if (body.password || body.username) {
@@ -40,9 +38,26 @@ module.exports = function (injectedStore) {
     return store.upsert(TABLA, user);
   }
 
+  function follow(from, to) {
+    return store.upsert(TABLA + '_follow', {
+      user_from: from,
+      user_to: to,
+    });
+  }
+
+  async function following(user) {
+    const join = {};
+    join[TABLA] = 'user_to'; // { user: 'user_to' }
+    const query = { user_from: user };
+
+    return await store.query(TABLA + '_follow', query, join);
+  }
+
   return {
     list,
     get,
     upsert,
+    follow,
+    following,
   };
 };
