@@ -1,7 +1,7 @@
 {
   "version": 2,
   "env": {
-    "NODE_ENV": "production"
+    "MYSQL_HOST": "remotemysql.com"
   },
   "builds": [
     {
@@ -10,10 +10,6 @@
     },
     {
       "src": "post/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "mysql/index.js",
       "use": "@vercel/node"
     }
   ],
@@ -29,10 +25,6 @@
     {
       "src": "/api/post(.*)",
       "dest": "/post/index.js"
-    },
-    {
-      "src": "/api/mysql(.*)",
-      "dest": "/mysql/index.js"
     }
   ]
 }
